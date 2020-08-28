@@ -1,3 +1,6 @@
+const cacheKey = "NUMBER"
+
+
 let listNode;
 let toDoList;
 let getNumber;
@@ -8,19 +11,20 @@ const textNodeElement = text => {
   let textNode = document.createElement('a');
   textNode.className="item";
   textNode.appendChild(document.createTextNode(text));
+  textNode.setAttribute('contenteditable',"true")
   return textNode
 }
 
 const editElement = () => {
-  
   if(event.target.getAttribute("status") == "active"){
     event.target.setAttribute("status","inactive");
-    console.log(event.target.parentElement.children[1].setAttribute('contenteditable',"true"))
+    event.target.parentElement.children[1].setAttribute('contenteditable',"true")
+    event.target.parentElement.children[1].classList.remove('task-done')
   }else{
     event.target.setAttribute("status","active");
-    console.log(event.target.parentElement.children[1].setAttribute('contenteditable',"false"))
+    event.target.parentElement.children[1].setAttribute('contenteditable',"false")
+    event.target.parentElement.children[1].classList.add('task-done')
   }
-  
 }
 const inputNodeElement = () => {
   let inputNode = document.createElement('input');
@@ -31,8 +35,9 @@ const inputNodeElement = () => {
 }
 
 const removeElement = () => {
-  toDoList = document.getElementById('toDo');
-  toDoList.removeChild(event.target.parentElement)
+  toDo = document.getElementById('toDo');
+  toDo.removeChild(event.target.parentElement)
+  sessionStorage.setItem(cacheKey,toDo.innerHTML)
 }
 
 
@@ -53,7 +58,32 @@ button.addEventListener('click',()=> {
   listNode.appendChild(inputNodeElement());
   listNode.appendChild(textNodeElement(inputTaskElement.value));
   listNode.appendChild(deleteNodeElement());
-  listNode.setAttribute('contenteditable',"true")
   toDoList.append(listNode);
+  toDo = document.getElementById('toDo');
+  console.log(toDo)
+  sessionStorage.setItem(cacheKey,toDo.innerHTML)
+  inputTaskElement.value = '';
 })
 
+
+if (typeof(Storage) !== "undefined") {
+  if (sessionStorage.getItem(cacheKey) === "undefined") {
+    // Jika belum maka akan atur dengan nilai awal yakni 0
+    sessionStorage.setItem(cacheKey, 0);
+  }
+
+  const button = document.querySelector("#button");
+  const count = document.querySelector("#count");
+  window.onload = function() {
+    toDo.innerHTML = sessionStorage.getItem(cacheKey)
+    let toDoAct = document.getElementById('toDo').children
+    
+    for(element of toDoAct){
+      element.children[2].addEventListener('click',removeElement)
+      element.children[0].addEventListener('click',editElement)
+    }
+
+  }
+} else {
+  // Browser tidak mendukung sessionStorage/LocalStorage
+}

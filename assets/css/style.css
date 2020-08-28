@@ -93,3 +93,7 @@ li a.action {
   float:right;
   cursor: pointer;
 }
+
+.task-done {
+  text-decoration: line-through;
+}

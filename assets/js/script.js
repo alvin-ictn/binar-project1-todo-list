@@ -7,6 +7,7 @@ let inputTaskElement = document.getElementById('inputTask');
 
 let button = document.querySelector('button[type="submit"]');
 const textNodeElement = text => {
+  text.length ? text : text = 'NO TEXT'
   let textNode = document.createElement('a');
   textNode.className="item";
   textNode.appendChild(document.createTextNode(text));
@@ -25,6 +26,7 @@ const editElement = () => {
     event.target.parentElement.children[1].classList.add('task-done')
   }
 }
+
 const inputNodeElement = () => {
   let inputNode = document.createElement('input');
   inputNode.className ='checkboxClass';
@@ -38,8 +40,6 @@ const removeElement = () => {
   toDo.removeChild(event.target.parentElement)
   sessionStorage.setItem(cacheKey,toDo.innerHTML)
 }
-
-
 
 const deleteNodeElement = () => {
   let deleteNode = document.createElement('a');
@@ -67,7 +67,6 @@ button.addEventListener('click',()=> {
 
 if (typeof(Storage) !== "undefined") {
   if (sessionStorage.getItem(cacheKey) === "undefined") {
-    // Jika belum maka akan atur dengan nilai awal yakni 0
     sessionStorage.setItem(cacheKey, 0);
   }
 
@@ -81,8 +80,8 @@ if (typeof(Storage) !== "undefined") {
       element.children[2].addEventListener('click',removeElement)
       element.children[0].addEventListener('click',editElement)
     }
-
+    
   }
 } else {
-  // Browser tidak mendukung sessionStorage/LocalStorage
+  console.error("GAK ADA")
 }

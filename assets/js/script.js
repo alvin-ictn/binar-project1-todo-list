@@ -1,4 +1,4 @@
-const cacheKey = "NUMBER"
+const cacheKey = "URL"
 
 let listNode;
 let toDoList;
@@ -37,8 +37,9 @@ const inputNodeElement = () => {
 
 const removeElement = () => {
   toDo = document.getElementById('toDo');
-  toDo.removeChild(event.target.parentElement)
-  sessionStorage.setItem(cacheKey,toDo.innerHTML)
+    let data = event.target.parentElement;
+    toDo.removeChild(data)
+    sessionStorage.setItem(cacheKey,toDo.innerHTML)
 }
 
 const deleteNodeElement = () => {
@@ -80,7 +81,7 @@ if (typeof(Storage) !== "undefined") {
       element.children[2].addEventListener('click',removeElement)
       element.children[0].addEventListener('click',editElement)
     }
-    
+
   }
 } else {
   console.error("GAK ADA")

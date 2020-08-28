@@ -1,6 +1,5 @@
 const cacheKey = "NUMBER"
 
-
 let listNode;
 let toDoList;
 let getNumber;

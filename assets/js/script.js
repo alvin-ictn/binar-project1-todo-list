@@ -11,10 +11,22 @@ const textNodeElement = text => {
   return textNode
 }
 
+const editElement = () => {
+  
+  if(event.target.getAttribute("status") == "active"){
+    event.target.setAttribute("status","inactive");
+    console.log(event.target.parentElement.children[1].setAttribute('contenteditable',"true"))
+  }else{
+    event.target.setAttribute("status","active");
+    console.log(event.target.parentElement.children[1].setAttribute('contenteditable',"false"))
+  }
+  
+}
 const inputNodeElement = () => {
   let inputNode = document.createElement('input');
   inputNode.className ='checkboxClass';
   inputNode.type = "checkbox";
+  inputNode.addEventListener('click',editElement)
   return inputNode
 }
 
@@ -22,6 +34,8 @@ const removeElement = () => {
   toDoList = document.getElementById('toDo');
   toDoList.removeChild(event.target.parentElement)
 }
+
+
 
 const deleteNodeElement = () => {
   let deleteNode = document.createElement('a');
@@ -39,6 +53,7 @@ button.addEventListener('click',()=> {
   listNode.appendChild(inputNodeElement());
   listNode.appendChild(textNodeElement(inputTaskElement.value));
   listNode.appendChild(deleteNodeElement());
+  listNode.setAttribute('contenteditable',"true")
   toDoList.append(listNode);
 })
 
